@@ -82,6 +82,7 @@ export const AuctionsIndex = () => {
 
     return (
         <>
+            <Typography variant={"h2"} m={2}>Select an auction</Typography>
             <Grid container spacing={2} sx={{mx: 'auto', my: 1}}>
                 {
                     auctions.map((auction) => <Grid xs={12} sm={6} md={4} lg={3}>
