@@ -9,7 +9,7 @@ export const BidList = ({bids, final}) => {
                 borderStyle: "solid",
                 borderColor: grey[200],
                 overflow: "auto",
-                backgroundColor: grey[50]
+                maxHeight: 525,
             }}
             disablePadding
         >

@@ -1,8 +1,7 @@
-import {Box, Button, Paper, TextField, Typography} from "@mui/material";
+import {Box, Paper, Typography} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import {localizeDate} from "../utils";
-import {BidList} from "./BidList";
-import {NewBid} from "./NewBid";
+import {BidDetailTabs} from "./BidDetailTabs";
 
 export const AuctionDetails = () => {
     const auction = {
@@ -87,12 +86,7 @@ export const AuctionDetails = () => {
                     </Grid>
                 </Grid>
                 <Grid xs={12} md={6} spacing={2}>
-                    <Typography variant="h5">Bids</Typography>
-                    {auction.active && <NewBid/>}
-                    <BidList
-                        bids={bids}
-                        final={!auction.active}
-                    />
+                    <BidDetailTabs auction={auction} bids={bids}/>
                 </Grid>
             </Grid>
         </Paper>
