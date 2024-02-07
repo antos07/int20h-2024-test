@@ -1,8 +1,9 @@
 import {Card, CardActionArea, CardContent, CardHeader, CardMedia, Typography} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
 
-function AuctionCard({title, description, image, start_date, end_date, author}) {
+function AuctionCard({auction}) {
     const localizeDate = (date) => date && date.toLocaleDateString(undefined, {
         year: 'numeric',
         month: 'numeric',
@@ -12,22 +13,22 @@ function AuctionCard({title, description, image, start_date, end_date, author}) 
     });
 
     return <Card sx={{height: '500px'}}>
-        <CardActionArea>
+        <CardActionArea component={Link} to={`auctions/${auction.id}`}>
             <CardHeader
-                title={title}
+                title={auction.title}
                 subheader={<>
-                    <Typography>@{author}</Typography>
+                    <Typography>@{auction.author}</Typography>
                     <Typography variant={'subtitle2'}>
-                        {localizeDate(start_date)} - {localizeDate(end_date)}
+                        {localizeDate(auction.start_date)} - {localizeDate(auction.end_date)}
                     </Typography>
                 </>}
             />
             <CardMedia
                 sx={{height: 250, objectFit: "contain"}}
-                image={image}/>
+                image={auction.image}/>
             <CardContent>
                 <Typography variant="body2" color={"text.secondary"}>
-                    {description}
+                    {auction.description}
                 </Typography>
             </CardContent>
         </CardActionArea>
@@ -81,14 +82,7 @@ export const AuctionsIndex = () => {
         <Grid container spacing={2} sx={{mx: 'auto', mt: 1}}>
             {
                 auctions.map((auction) => <Grid xs={12} sm={6} md={4} lg={3} xl={2}>
-                    <AuctionCard
-                        title={auction.title}
-                        description={auction.description}
-                        start_date={auction.start_date}
-                        end_date={auction.end_date}
-                        author={auction.author}
-                        image={auction.image}
-                    />
+                    <AuctionCard auction={auction}/>
                 </Grid>)
             }
         </Grid>
