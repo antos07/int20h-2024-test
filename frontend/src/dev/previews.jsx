@@ -3,6 +3,7 @@ import {PaletteTree} from './palette'
 import App from "../App";
 import {AuctionsIndex} from "../components/AuctionsIndex";
 import {Auctions} from "../components/Auctions";
+import {AuctionDetails} from "../components/AuctionDetails";
 
 const ComponentPreviews = () => {
     return (
@@ -18,6 +19,9 @@ const ComponentPreviews = () => {
             </ComponentPreview>
             <ComponentPreview path="/PaletteTree">
                 <PaletteTree/>
+            </ComponentPreview>
+            <ComponentPreview path="/AuctionDetails">
+                <AuctionDetails/>
             </ComponentPreview>
         </Previews>
     )
