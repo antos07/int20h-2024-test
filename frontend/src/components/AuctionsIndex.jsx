@@ -1,5 +1,7 @@
-import {Card, CardActionArea, CardContent, CardHeader, CardMedia, Typography} from "@mui/material";
+import {Box, Card, CardActionArea, CardContent, CardHeader, CardMedia, Container, Fab, Typography} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
+import AddIcon from '@mui/icons-material/Add';
+
 import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 
@@ -79,12 +81,17 @@ export const AuctionsIndex = () => {
     }, []);
 
     return (
-        <Grid container spacing={2} sx={{mx: 'auto', mt: 1}}>
-            {
-                auctions.map((auction) => <Grid xs={12} sm={6} md={4} lg={3} xl={2}>
-                    <AuctionCard auction={auction}/>
-                </Grid>)
-            }
-        </Grid>
+        <>
+            <Grid container spacing={2} sx={{mx: 'auto', my: 1}}>
+                {
+                    auctions.map((auction) => <Grid xs={12} sm={6} md={4} lg={3}>
+                        <AuctionCard auction={auction}/>
+                    </Grid>)
+                }
+            </Grid>
+            <Fab color="primary" aria-label="add" sx={{position: 'fixed', bottom: '10%', right: '10%'}}>
+                <AddIcon/>
+            </Fab>
+        </>
     );
 }
