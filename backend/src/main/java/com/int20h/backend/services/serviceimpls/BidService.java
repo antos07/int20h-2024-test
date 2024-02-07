@@ -14,37 +14,37 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class BidService {
-    private final BidRepository BidRepository;
-    private final IMapper<Bid, BidDto> BidMapper;
+    private final BidRepository bidRepository;
+    private final IMapper<Bid, BidDto> bidMapper;
 
     public Bid requireOneId(UUID id) {
-        return BidRepository.findById(id)
+        return bidRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Resource not found: " + id));
     }
 
     public void save(BidDto dto) {
         Bid entity = new Bid();
-        entity = BidMapper.convertToEntity(dto, entity);
-        BidRepository.save(entity);
+        entity = bidMapper.convertToEntity(dto, entity);
+        bidRepository.save(entity);
     }
 
     public void delete(UUID id) {
-        BidRepository.deleteById(id);
+        bidRepository.deleteById(id);
     }
 
     public void update(UUID id, BidDto dto) {
         Bid entity = requireOneId(id);
-        entity = BidMapper.convertToEntity(dto, entity);
-        BidRepository.save(entity);
+        entity = bidMapper.convertToEntity(dto, entity);
+        bidRepository.save(entity);
     }
 
     public BidDto getById(UUID id) {
         Bid original = requireOneId(id);
-        return BidMapper.convertToDTO(original);
+        return bidMapper.convertToDTO(original);
     }
 
     public List<BidDto> getAll() {
-        List<Bid> original = BidRepository.findAll();
-        return BidMapper.convertToDtoList(original);
+        List<Bid> original = bidRepository.findAll();
+        return bidMapper.convertToDtoList(original);
     }
 }
