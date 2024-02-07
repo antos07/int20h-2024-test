@@ -14,8 +14,8 @@ function AuctionCard({auction}) {
         minute: 'numeric'
     });
 
-    return <Card sx={{height: '500px'}}>
-        <CardActionArea component={Link} to={`auctions/${auction.id}`}>
+    return <Card>
+        <CardActionArea sx={{height: '500px'}} component={Link} to={`auctions/${auction.id}`}>
             <CardHeader
                 title={auction.title}
                 subheader={<>
