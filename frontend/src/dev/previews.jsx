@@ -16,6 +16,9 @@ const ComponentPreviews = () => {
             <ComponentPreview path="/Auctions">
                 <Auctions/>
             </ComponentPreview>
+            <ComponentPreview path="/PaletteTree">
+                <PaletteTree/>
+            </ComponentPreview>
         </Previews>
     )
 }
