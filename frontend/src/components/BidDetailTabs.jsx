@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {Box, Tab} from "@mui/material";
+import {Box, Card, Tab} from "@mui/material";
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
@@ -14,7 +14,7 @@ export const BidDetailTabs = (props) => {
     };
 
     return (
-        <Box sx={{width: '100%', maxHeight: 600}}>
+        <Card sx={{width: '100%', minHeight: 650, height: 1}}>
             <TabContext value={value}>
                 <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                     <TabList onChange={handleChange}>
@@ -29,6 +29,6 @@ export const BidDetailTabs = (props) => {
                     <UserListTab {...props}/>
                 </TabPanel>
             </TabContext>
-        </Box>
+        </Card>
     );
 }

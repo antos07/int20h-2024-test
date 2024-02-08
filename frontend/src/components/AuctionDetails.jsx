@@ -82,16 +82,17 @@ export const AuctionDetails = () => {
                         <Typography variant="body1">Start: {localizeDate(auction.start_date)}</Typography>
                         <Typography variant="body1">End: {localizeDate(auction.end_date)}</Typography>
                     </Grid>
-                    <Grid container xs={12} md={6} spacing={3}>
+                    <Grid container xs={12} md={6} spacing={3} sx={{height: 1}}>
                         <Grid xs={12}>
                             <Box component="img" src={auction.image} alt={auction.title}
                                  sx={{height: 350, objectFit: "cover", borderRadius: 1, maxWidth: 1}}/>
                         </Grid>
-                        <Grid xs={12}>
-                            <Typography variant="body1" sx={{minHeight: 350}}>{auction.description}</Typography>
+                        <Grid xs={12} sx={{height: 1}}>
+                            <Typography variant="body1">{auction.description}</Typography>
                         </Grid>
                     </Grid>
-                    <Grid xs={12} md={6} spacing={2}>
+
+                    <Grid xs={12} md={6} spacing={2} sx={{height: 1}}>
                         <BidDetailTabs auction={auction} bids={bids} activeUsers={activeUsers}/>
                     </Grid>
                 </Grid>
