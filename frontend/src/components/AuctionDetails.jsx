@@ -65,6 +65,10 @@ export const AuctionDetails = () => {
             timestamp: new Date(),
         },
     ]
+    const activeUsers = [
+        {name: "antos07"},
+        {name: "SiIence_o0"},
+    ]
 
     return (
         <>
@@ -88,7 +92,7 @@ export const AuctionDetails = () => {
                         </Grid>
                     </Grid>
                     <Grid xs={12} md={6} spacing={2}>
-                        <BidDetailTabs auction={auction} bids={bids}/>
+                        <BidDetailTabs auction={auction} bids={bids} activeUsers={activeUsers}/>
                     </Grid>
                 </Grid>
             </Paper>

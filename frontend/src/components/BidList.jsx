@@ -14,7 +14,7 @@ export const BidList = ({bids, final}) => {
             disablePadding
         >
             {
-                bids.map((bid, i) => <Bid
+                bids && bids.map((bid, i) => <Bid
                         bid={bid}
                         last={i === 0}
                         divider={i !== bids.length - 1}
