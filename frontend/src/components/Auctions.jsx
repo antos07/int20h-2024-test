@@ -30,7 +30,7 @@ export function MenuAppBar() {
     };
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{flexGrow: 1}}>
             <AppBar position="static" sx={{
                 boxShadow: 3,
                 borderBottom: 3,
@@ -43,16 +43,16 @@ export function MenuAppBar() {
             >
                 <Toolbar disableGutters>
                     <Link variant="h5"
-                                component={RouterLink}
-                                to="/"
-                                sx={{
-                        flexGrow: 1,
-                        ml: "50px",
-                        fontFamily: "Roboto",
-                        fontStyle: "Italic",
-                        textDecoration: 'none',
-                        color: 'primary.strongDark',
-                    }}
+                          component={RouterLink}
+                          to="/"
+                          sx={{
+                              flexGrow: 1,
+                              ml: "50px",
+                              fontFamily: "Roboto",
+                              fontStyle: "Italic",
+                              textDecoration: 'none',
+                              color: 'primary.strongDark',
+                          }}
                     >
                         CharityAuctions
                     </Link>
@@ -69,7 +69,7 @@ export function MenuAppBar() {
                                     color: 'primary.strongDark'
                                 }}
                             >
-                                <AccountCircle />
+                                <AccountCircle/>
                             </IconButton>
                             <Menu
                                 id="menu-appbar"
@@ -91,18 +91,18 @@ export function MenuAppBar() {
                         </div>
                     )}
                     {!auth && (
-                    <Button color="inherit"
-                            component={RouterLink}
-                            to="/"
-                            sx={{
-                        border: 1,
-                        borderRadius: '10px',
-                        borderColor: green[300],
-                        mr: '60px',
-                        fontSize: 13,
-                        boxShadow: 3,
-                        fontFamily: "Roboto",
-                    }}>Log in</Button>)}
+                        <Button color="inherit"
+                                component={RouterLink}
+                                to="/"
+                                sx={{
+                                    border: 1,
+                                    borderRadius: '10px',
+                                    borderColor: green[300],
+                                    mr: '60px',
+                                    fontSize: 13,
+                                    boxShadow: 3,
+                                    fontFamily: "Roboto",
+                                }}>Log in</Button>)}
                 </Toolbar>
             </AppBar>
         </Box>
@@ -111,10 +111,8 @@ export function MenuAppBar() {
 
 const GradientFooter = styled(
     Paper,
-)(({ theme, gradientColors }) => ({
-    marginTop: 'calc(10% + 60px)',
+)(() => ({
     width: '100%',
-    position: 'absolute',
     bottom: 0,
     background: 'linear-gradient(to bottom right, #E8FFEF, #4EB66D 90%)',
 }));
@@ -129,7 +127,7 @@ export function Footer() {
                         flexGrow: 1,
                         justifyContent: "center",
                         display: "flex",
-                        my:1
+                        my: 1
                     }}
                 >
                 </Box>
@@ -152,12 +150,11 @@ export function Footer() {
 }
 
 
-
 export const Auctions = () => (
     <>
         <MenuAppBar/>
-        <Container sx={{minHeight: '100%', mt: '80px'}}>
-        <Outlet/>
+        <Container sx={{minHeight: '86vh', mt: '80px'}}>
+            <Outlet/>
         </Container>
         <Footer/>
     </>
