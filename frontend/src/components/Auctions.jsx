@@ -38,7 +38,8 @@ export function MenuAppBar() {
                 borderColor: 'primary.dark',
                 bgcolor: grey[50],
                 position: 'fixed',
-                top: 0
+                top: 0,
+                zIndex: 100
             }}
             >
                 <Toolbar disableGutters>

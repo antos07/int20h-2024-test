@@ -9,12 +9,12 @@ import {localizeDate} from "../utils";
 function AuctionCard({auction}) {
 
     return <Card>
-        <CardActionArea sx={{height: '500px'}} component={Link} to={`auctions/${auction.id}`}>
+        <CardActionArea sx={{height: '500px', minWeight: '400px'}} component={Link} to={`auctions/${auction.id}`}>
             <CardHeader
                 title={auction.title}
                 subheader={<>
                     <Typography>@{auction.author}</Typography>
-                    <Typography variant={'subtitle2'}>
+                    <Typography variant={'subtitle2'} sx={{ fontSize: 12, fontFamily: 'Arial'}}>
                         {localizeDate(auction.start_date)} - {localizeDate(auction.end_date)}
                     </Typography>
                 </>}
@@ -84,7 +84,7 @@ export const AuctionsIndex = () => {
                     </Grid>)
                 }
             </Grid>
-            <Fab color="primary" aria-label="add" sx={{position: 'fixed', bottom: '10%', right: '10%'}}>
+            <Fab color="secondary" aria-label="add" sx={{position: 'fixed', bottom: '10%', right: '10%'}}>
                 <AddIcon/>
             </Fab>
         </>
