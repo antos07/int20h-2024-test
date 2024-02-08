@@ -14,17 +14,17 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "user")
+@Table(name = "users") //authorization conflict if named "user"
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private UUID id;
 
-    @Column(name = "username", length = 15)
+    @Column(name = "username")
     private String username;
 
-    @Column(name = "email", length = 20)
+    @Column(name = "email")
     private String email;
 
     @Column(name = "token")
