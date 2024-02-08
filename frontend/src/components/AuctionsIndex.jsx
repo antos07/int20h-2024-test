@@ -4,15 +4,9 @@ import AddIcon from '@mui/icons-material/Add';
 
 import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
+import {localizeDate} from "../utils";
 
 function AuctionCard({auction}) {
-    const localizeDate = (date) => date && date.toLocaleDateString(undefined, {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric'
-    });
 
     return <Card>
         <CardActionArea sx={{height: '500px'}} component={Link} to={`auctions/${auction.id}`}>
