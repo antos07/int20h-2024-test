@@ -34,7 +34,7 @@ public class Auction {
     private String title;
     private String description;
 
-    @Lob
+    //@Lob
     @Basic(fetch = FetchType.LAZY)
 
     private byte[] photo;

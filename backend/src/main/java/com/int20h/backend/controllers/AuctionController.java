@@ -7,8 +7,12 @@ import com.int20h.backend.services.serviceimpls.AuctionService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -57,7 +61,25 @@ public class AuctionController {
     }
 
     @PutMapping("/close/{id}")
-    public AuctionDto closeAuction(@NotNull @PathVariable("id") UUID id){
+    public AuctionDto closeAuction(@NotNull @PathVariable("id") UUID id) {
         return auctionService.closeAuction(id);
+    }
+
+    //@PutMapping("/uploadImage/{id}")
+    @RequestMapping(
+            path = "/uploadImage/{id}",
+            method = RequestMethod.POST,
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void uploadImage(@NotNull @PathVariable("id") UUID id,
+                            @RequestParam("image") MultipartFile image) {
+        auctionService.setPhoto(image, id);
+    }
+
+    @GetMapping("/getImage/{id}")
+    public ResponseEntity<?> getImage(@NotNull @PathVariable("id") UUID id) {
+        byte[] image = auctionService.getPhoto(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.valueOf("image/png"))
+                .body(image);
     }
 }

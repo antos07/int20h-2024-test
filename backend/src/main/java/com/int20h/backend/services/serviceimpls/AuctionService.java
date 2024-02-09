@@ -11,7 +11,9 @@ import com.int20h.backend.repositories.AuctionRepository;
 import com.int20h.backend.services.IMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuctionService {
     private final AuctionRepository auctionRepository;
+
     private final UserService userService;
+    private final FileService fileService;
 
     private final IMapper<Auction, AuctionDto> auctionMapper;
     private final IMapper<Bid, BidDto> bidMapper;
@@ -93,5 +97,19 @@ public class AuctionService {
         return auctionMapper.convertToDTO(auction);
     }
 
+    public void setPhoto(MultipartFile image, UUID id) {
+        try {
+            byte[] data = image.getBytes();
+            Auction entity = requireOneId(id);
+            entity.setPhoto(data);
+            auctionRepository.save(entity);
+        } catch (IOException e) {
+            throw new RuntimeException("Image saving failed");
+        }
+    }
 
+    public byte[] getPhoto(UUID id) {
+        Auction entity = requireOneId(id);
+        return entity.getPhoto();
+    }
 }
