@@ -61,4 +61,8 @@ public class BidService {
         bean = bidMapper.convertToEntity(dto, bean);
         return bean;
     }
+
+    public float getMinOffer(UUID id){
+        return auctionService.getHighestOffer(id);
+    }
 }

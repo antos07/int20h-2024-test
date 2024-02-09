@@ -36,7 +36,7 @@ public class AuctionController {
 
     @PutMapping("/{id}")
     public void update(@Valid @NotNull @PathVariable("id") UUID id,
-                       @Valid @RequestBody AuctionDto dto) {
+                       @RequestBody @Valid AuctionDto dto) {
         auctionService.update(id, dto);
     }
 

@@ -112,4 +112,15 @@ public class AuctionService {
         Auction entity = requireOneId(id);
         return entity.getPhoto();
     }
+
+    public float getHighestOffer(UUID id) {
+        Auction auction = requireOneId(id);
+        float highestOffer = auction.getMinOffer();
+        if (auction.getBids().isEmpty()) return highestOffer;
+
+        for (Bid bid : auction.getBids()) {
+            if (bid.getOffer() > highestOffer) highestOffer = bid.getOffer();
+        }
+        return highestOffer;
+    }
 }
