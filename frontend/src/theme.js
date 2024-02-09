@@ -4,13 +4,15 @@ import {green, grey, purple, red} from "@mui/material/colors";
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#CBFCD9',
-            light: '#E8FFEF',
-            dark: green[400],
+            main: '#50c76e',
+            light: '#c9eccf',
+            dark: '#3aa657',
             strongDark: '#043818',
         },
-        gradient:
-            'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)'
+        secondary: {
+            main: '#b1ffba',
+            dark: '#7fe59c',
+        }
     },
     components: {
         MuiAppBar: {

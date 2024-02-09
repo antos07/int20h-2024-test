@@ -97,7 +97,7 @@ export const AuctionDetails = () => {
                     </Grid>
                 </Grid>
             </Paper>
-            <EditAuctionFab auction={auction}/>
+            <EditAuctionFab auction={auction} sx={{color: 'primary.strongDark'}}/>
         </>
     )
 }
