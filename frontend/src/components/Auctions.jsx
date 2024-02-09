@@ -121,7 +121,7 @@ const GradientFooter = styled(
 
 export function Footer() {
     return (
-        <GradientFooter component="footer" square variant="outlined">
+        <GradientFooter component="footer" square variant="outlined" sx={{mt: 5}}>
             <Container maxWidth="lg">
                 <Box
                     sx={{
