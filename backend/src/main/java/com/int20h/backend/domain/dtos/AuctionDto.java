@@ -12,7 +12,7 @@ public class AuctionDto implements Serializable {
     UUID userId;
     String title;
     String description;
-    byte[] photo;
+    //byte[] photo;
     AuctionStatus status;
     float minOffer;
     LocalDateTime createdAt;

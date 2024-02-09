@@ -1,6 +1,7 @@
 package com.int20h.backend.domain.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,4 +35,17 @@ public class Bid {
 
     //@Column(name = "offer")
     private float offer;
+
+    public void addBid(@NotNull User user, @NotNull Auction auction) {
+        this.user = user;
+        this.auction = auction;
+
+        user.getBids().add(this);
+        auction.getBids().add(this);
+    }
+
+//    public void removeBid() {
+//        this.user.getBids().add(this);
+//        this.auction.getBids().add(this);
+//    }
 }

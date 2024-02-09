@@ -15,6 +15,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BidService {
     private final BidRepository bidRepository;
+
+    private final UserService userService;
+    private final AuctionService auctionService;
+
     private final IMapper<Bid, BidDto> bidMapper;
 
     public Bid requireOneId(UUID id) {
@@ -23,7 +27,7 @@ public class BidService {
     }
 
     public void save(BidDto dto) {
-        Bid entity = new Bid();
+        Bid entity = setDependency(dto);
         entity = bidMapper.convertToEntity(dto, entity);
         bidRepository.save(entity);
     }
@@ -46,5 +50,15 @@ public class BidService {
     public List<BidDto> getAll() {
         List<Bid> original = bidRepository.findAll();
         return bidMapper.convertToDtoList(original);
+    }
+
+    private Bid setDependency(BidDto dto) {
+        Bid bean = new Bid();
+        bean.addBid(
+                userService.requireOneId(dto.getUserId()),
+                auctionService.requireOneId(dto.getAuctionId())
+        );
+        bean = bidMapper.convertToEntity(dto, bean);
+        return bean;
     }
 }
