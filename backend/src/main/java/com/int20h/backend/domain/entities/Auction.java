@@ -28,7 +28,9 @@ public class Auction {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "auction", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "auction",
+            cascade = {CascadeType.MERGE, CascadeType.REMOVE},
+            fetch = FetchType.EAGER)
     private Set<Bid> bids;
 
     private String title;

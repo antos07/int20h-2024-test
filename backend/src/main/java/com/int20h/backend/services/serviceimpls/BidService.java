@@ -26,10 +26,11 @@ public class BidService {
                 .orElseThrow(() -> new NoSuchElementException("Resource not found: " + id));
     }
 
-    public void save(BidDto dto) {
+    public BidDto save(BidDto dto) {
         Bid entity = setDependency(dto);
         entity = bidMapper.convertToEntity(dto, entity);
         bidRepository.save(entity);
+        return dto;
     }
 
     public void delete(UUID id) {

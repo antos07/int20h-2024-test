@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TestController {
-    @GetMapping("")
-    public String test() {
-        return "cringe has been logged in/out and redirected to home page";
-    }
+//    @GetMapping("")
+//    public String test() {
+//        return "cringe has been logged in/out and redirected to home page";
+//    }
 }
