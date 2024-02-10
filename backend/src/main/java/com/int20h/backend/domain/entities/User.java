@@ -30,7 +30,9 @@ public class User {
     @Column(name = "token")
     private String externalProviderToken;
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE})
+    @OneToMany(mappedBy = "user",
+            cascade = {CascadeType.MERGE},
+            fetch = FetchType.EAGER)
     private Set<Bid> bids;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE})

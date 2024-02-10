@@ -5,6 +5,7 @@ import com.int20h.backend.domain.entities.Bid;
 import com.int20h.backend.services.IMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -15,7 +16,7 @@ public class BidMapper implements IMapper<Bid, BidDto> {
                 foundEntity.getId(),
                 foundEntity.getUser(),
                 foundEntity.getAuction(),
-                dto.getCreatedAt(),
+                LocalDateTime.now(),
                 dto.getOffer()
         );
     }

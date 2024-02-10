@@ -35,9 +35,7 @@ public class WebSecurityConfig {
                 .and()
                 .defaultSuccessUrl("/")
                 .and()
-                .formLogin(withDefaults())
-
-
+                //.formLogin(withDefaults())
                 .build();
     }
 }

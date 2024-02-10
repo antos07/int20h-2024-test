@@ -2,6 +2,7 @@ package com.int20h.backend.domain.entities;
 
 import com.int20h.backend.domain.AuctionStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,11 +28,17 @@ public class Auction {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "auction", cascade = {CascadeType.MERGE})
+    @OneToMany(mappedBy = "auction",
+            cascade = {CascadeType.MERGE, CascadeType.REMOVE},
+            fetch = FetchType.EAGER)
     private Set<Bid> bids;
 
     private String title;
     private String description;
+
+    //@Lob
+    @Basic(fetch = FetchType.LAZY)
+
     private byte[] photo;
     private AuctionStatus status;
 
@@ -46,4 +53,14 @@ public class Auction {
 
     @Column(name = "end_at")
     private LocalDateTime endAt;
+
+    public void addAuction(@NotNull User user) {
+        this.user = user;
+
+        user.getAuctions().add(this);
+    }
+
+    public void removeAuction() {
+        this.user.getAuctions().add(this);
+    }
 }
