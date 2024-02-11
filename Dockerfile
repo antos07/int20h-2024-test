@@ -9,7 +9,7 @@ WORKDIR /app
 
 # Installing dependencies
 COPY ./frontend/package.json ./
-COPY ./frontend//package-lock.json ./
+COPY ./frontend/package-lock.json ./
 
 RUN npm install
 

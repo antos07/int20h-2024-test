@@ -37,11 +37,12 @@ public class AuctionService {
                 .orElseThrow(() -> new NoSuchElementException("Resource not found: " + id));
     }
 
-    public void save(AuctionDto dto) {
+    public AuctionDto save(AuctionDto dto) {
         Auction entity = setDependency(dto);
         entity = auctionMapper.convertToEntity(dto, entity);
         entity.setCreatedAt(LocalDateTime.now());
-        auctionRepository.save(entity);
+        entity = auctionRepository.save(entity);
+        return auctionMapper.convertToDTO(entity);
     }
 
     public void delete(UUID id) {
