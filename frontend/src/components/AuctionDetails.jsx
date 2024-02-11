@@ -4,61 +4,12 @@ import {localizeDate} from "../utils";
 import {BidDetailTabs} from "./BidDetailTabs";
 import {EditAuctionFab} from "./EditAuctionFab";
 import {useRouteLoaderData, useLoaderData} from "react-router-dom";
+import {getAllBids} from "../api";
 
 export const AuctionDetails = () => {
     const currentUser = useRouteLoaderData("root");
     const auction = useLoaderData();
 
-    const bids = [
-        {
-            id: 6,
-            author: "antos07",
-            price: "100",
-            timestamp: new Date(),
-        },
-        {
-            id: 5,
-            author: "antos07",
-            price: "90",
-            timestamp: new Date(),
-        },
-        {
-            id: 4,
-            author: "antos07",
-            price: "70",
-            timestamp: new Date(),
-        },
-        {
-            id: 3,
-            author: "antos07",
-            price: "50",
-            timestamp: new Date(),
-        },
-        {
-            id: 2,
-            author: "antos07",
-            price: "20",
-            timestamp: new Date(),
-        },
-        {
-            id: 1,
-            author: "antos07",
-            price: "10",
-            timestamp: new Date(),
-        },
-        {
-            id: 0,
-            author: "SiIence_o0",
-            price: "5",
-            timestamp: new Date(),
-        },
-        {
-            id: 10,
-            author: "antos07",
-            price: "3",
-            timestamp: new Date(),
-        },
-    ]
     const activeUsers = [
         {name: "antos07"},
         {name: "SiIence_o0"},
@@ -87,7 +38,7 @@ export const AuctionDetails = () => {
                     </Grid>
 
                     <Grid xs={12} md={6} spacing={2} sx={{height: 1}}>
-                        <BidDetailTabs auction={auction} bids={bids} activeUsers={activeUsers}/>
+                        <BidDetailTabs auction={auction} activeUsers={activeUsers}/>
                     </Grid>
                 </Grid>
             </Paper>

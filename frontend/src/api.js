@@ -79,6 +79,46 @@ function checkIsUserAuthor(currentUser, authorId) {
     return currentUser.id === authorId;
 }
 
+export const getAllBids = async (auctionId) => {
+    const responseBids = await fetch(`/auction/getBidHistory/${auctionId}`, { redirect: "error" });
+    if (!responseBids.ok) {
+        return [];
+    }
+
+    const bidDtos = await responseBids.json();
+    return bidDtos.map(async (bid) => {
+        const user = await getUser(bid.userId);
+
+        return {
+            author: user.username,
+            auctionId: bid.auctionId,
+            timestamp: bid.createdAt,
+            price: bid.offer,
+        }
+    })
+}
+
+
+export const createBid = async (bid) => {
+    const currentUser = await loadCurrentUser();
+
+    // create a bid
+    const data = {
+        userId: currentUser.id,
+        auctionId: bid.auctionId,
+        createdAt: new Date(),
+        offer: bid.offer,
+    };
+    const response = await fetch(`/bid`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+    return response.ok;
+}
+
 export const createAuction = async (auction, user) => {
     // create an auction
     const data = {
