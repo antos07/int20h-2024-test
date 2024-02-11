@@ -3,8 +3,8 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import {Auctions} from "./components/Auctions";
 import {AuctionsIndex} from "./components/AuctionsIndex";
 import {AuctionDetails} from "./components/AuctionDetails";
-import {getAuctionInfo, listAuctions, loadCurrentUser} from "./api";
-import {AddEditAuctions} from "./components/AddEditAuctions";
+import {createAuction, editAuction, getAuctionInfo, listAuctions, loadCurrentUser} from "./api";
+import {EditAuction} from "./components/EditAuction";
 
 const router = createBrowserRouter([
     {
@@ -27,7 +27,14 @@ const router = createBrowserRouter([
             },
             {
                 path: "auctions/create",
-                element: <AddEditAuctions/>
+                element: <EditAuction formTitle="Create a new auction" onSaveAction={createAuction}/>,
+            },
+            {
+                path: "auctions/:auctionId/edit",
+                element: <EditAuction formTitle="Edit an auction" onSaveAction={editAuction} fillForm/>,
+                loader: ({ params }) => {
+                    return getAuctionInfo(params.auctionId);
+                },
             },
         ]
     },

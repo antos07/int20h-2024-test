@@ -4,7 +4,6 @@ import {localizeDate} from "../utils";
 import {BidDetailTabs} from "./BidDetailTabs";
 import {EditAuctionFab} from "./EditAuctionFab";
 import {useRouteLoaderData, useLoaderData} from "react-router-dom";
-import {getAllBids} from "../api";
 
 export const AuctionDetails = () => {
     const currentUser = useRouteLoaderData("root");
@@ -38,11 +37,17 @@ export const AuctionDetails = () => {
                     </Grid>
 
                     <Grid xs={12} md={6} spacing={2} sx={{height: 1}}>
-                        <BidDetailTabs auction={auction} activeUsers={activeUsers}/>
+                        <BidDetailTabs auction={auction}/>
                     </Grid>
                 </Grid>
             </Paper>
-            {auction.amIAuthor && (<EditAuctionFab auction={auction} sx={{color: 'primary.strongDark'}}/>)}
+            {
+                currentUser
+                && auction.author === currentUser.username
+                && auction.end_date
+                && auction.end_date > new Date()
+                && <EditAuctionFab auction={auction} sx={{color: 'primary.strongDark'}}/>
+            }
         </>
     )
 }

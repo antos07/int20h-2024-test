@@ -48,36 +48,25 @@ export const listAuctions = async () => {
 
 
 export const getAuctionInfo = async (auctionId) => {
-    const response = await fetch(`/auction/${auctionId}`, { redirect: "error" });
+    const response = await fetch(`/auction/${auctionId}`, {redirect: "error"});
     if (!response.ok) {
         return null;
     }
     const auction = await response.json();
-    const author = await getUser(auction.userId);
-    const currentUser = await loadCurrentUser();
-
-    let checkAuthor;
-    if (currentUser === null) {
-        checkAuthor = false;
-    }
-    else {
-        checkAuthor = checkIsUserAuthor(currentUser, auction.userId);
-    }
+    const user = await getUser(auction.userId);
 
     return {
-        authorName: author.username,
+        id: auction.id,
+        minBid: auction.minOffer,
+        author: user.username,
         title: auction.title,
         description: auction.description,
         start_date: new Date(auction.startAt),
         end_date: new Date(auction.endAt),
         image: `/auction/getImage/${auction.id}`,
-        amIAuthor: checkAuthor,
     }
 }
 
-function checkIsUserAuthor(currentUser, authorId) {
-    return currentUser.id === authorId;
-}
 
 export const getAllBids = async (auctionId) => {
     const responseBids = await fetch(`/auction/getBidHistory/${auctionId}`, { redirect: "error" });
@@ -141,6 +130,8 @@ export const createAuction = async (auction, user) => {
     const auctionDto = await response.json();
 
     // upload the image
+    if (!auction.image)
+        return auctionDto.id;
     const formData = new FormData();
     formData.append("image", auction.image);
     const imageUploadResponse = await fetch(`/auction/uploadImage/${auctionDto.id}`, {
@@ -156,5 +147,39 @@ export const createAuction = async (auction, user) => {
         return false;
     }
 
-    return true;
+    return auctionDto.id;
+}
+
+
+export const editAuction = async (auction, user) => {
+    // create an auction
+    const data = {
+        userId: user.id,
+        title: auction.title,
+        description: auction.description,
+        minOffer: auction.minBid,
+        startAt: new Date(),
+        endAt: auction.endAt,
+    };
+    const response = await fetch(`/auction/${auction.id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+    if (!response.ok)
+        return false;
+    return auction.id;
+}
+
+
+export const listAuctionActiveUsers = async (auctionId) => {
+    const response = await fetch(`/auction/getActiveUsers/${auctionId}`)
+    if (!response.ok) {
+        return [];
+    }
+
+    const userDtos = await response.json();
+    return userDtos.map((user) => {return {name: user.username}})
 }

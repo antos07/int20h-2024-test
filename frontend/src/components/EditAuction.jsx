@@ -1,4 +1,4 @@
-import {Link, Outlet, useNavigate, useRouteLoaderData} from "react-router-dom";
+import {useLoaderData, useNavigate, useRouteLoaderData} from "react-router-dom";
 import {
     Button,
     Container,
@@ -7,20 +7,20 @@ import {
     FormHelperText,
     Input,
     InputLabel,
-    Paper, Stack, styled,
-    TextareaAutosize as BaseTextareaAutosize, TextField,
+    Paper,
+    Stack,
+    styled,
+    TextareaAutosize as BaseTextareaAutosize,
+    TextField,
     Typography
 } from "@mui/material";
 import * as React from "react";
-import {Footer, MenuAppBar} from "./Auctions";
 import {green, grey} from "@mui/material/colors";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import {auto} from "@popperjs/core";
 import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from "dayjs";
-import {createAuction} from "../api";
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -34,7 +34,7 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
 });
 
-const TextFieldWithHover = styled(TextField)(({ theme }) => ({
+const TextFieldWithHover = styled(TextField)(({theme}) => ({
     '&:hover': {
         borderColor: green[400],
     },
@@ -43,13 +43,8 @@ const TextFieldWithHover = styled(TextField)(({ theme }) => ({
     }
 }));
 
-export function AddEditForm() {
-    const currentUser = useRouteLoaderData("root");
-    const [value, setValue] = React.useState(null);
-    const navigate = useNavigate();
-
-    const Textarea = styled(BaseTextareaAutosize)(
-        ({ theme }) => `
+const Textarea = styled(BaseTextareaAutosize)(
+    ({theme}) => `
     box-sizing: border-box;
     width: 320px;
     font-family: 'IBM Plex Sans', sans-serif;
@@ -68,13 +63,22 @@ export function AddEditForm() {
     }
 
     &:focus {
-      box-shadow: 0 0 0 3px ${ green[200]};
+      box-shadow: 0 0 0 3px ${green[200]};
     }
   `,
-    );
+);
+
+export function AddEditForm({formTitle, onSaveAction, fillForm}) {
+    const currentUser = useRouteLoaderData("root");
+    let auctionData = useLoaderData();
+    if (!fillForm)
+        auctionData = {};
+    const [value, setValue] = React.useState(fillForm ? dayjs(auctionData.end_date) : null);
+    const navigate = useNavigate();
 
     const saveAuction = async () => {
         const auction = {
+            id: auctionData.id,
             title: document.getElementById("auctionTitle").value,
             description: document.getElementById("auctionDescription").value,
             minBid: +document.getElementById("auctionMinBid").value,
@@ -82,8 +86,15 @@ export function AddEditForm() {
             image: document.getElementById("auctionImage").files[0],
         }
 
-        if (await createAuction(auction, currentUser)) {
-            navigate("/");
+        if (auction.endAt <= new Date()) {
+            alert("Impossible finish time.")
+            return
+        }
+
+
+        const auctionId = await onSaveAction(auction, currentUser)
+        if (auctionId) {
+            navigate(`/auctions/${auctionId}`);
             return;
         }
 
@@ -94,11 +105,11 @@ export function AddEditForm() {
         <Container sx={{
             textAlign: "center",
             paddingTop: "20px",
-            }}>
-                <Typography variant="h5" sx={{
-                    mt: '20px',
-                    mb: '20px',
-                }}>Add new auction</Typography>
+        }}>
+            <Typography variant="h5" sx={{
+                mt: '20px',
+                mb: '20px',
+            }}>{formTitle}</Typography>
             <FormGroup sx={{
                 mt: '20px',
                 mb: '20px',
@@ -107,7 +118,7 @@ export function AddEditForm() {
             }}>
                 <FormControl sx={{width: '100%'}}>
                     <InputLabel>Title</InputLabel>
-                    <Input id="auctionTitle"/>
+                    <Input id="auctionTitle" defaultValue={auctionData.title}/>
                 </FormControl>
                 <FormControl sx={{
                     mt: '10px',
@@ -117,7 +128,7 @@ export function AddEditForm() {
                     <Textarea id="auctionDescription" minRows={3} sx={{
                         mt: '40px',
                         width: '100%'
-                    }}/>
+                    }} defaultValue={auctionData.description}/>
                 </FormControl>
                 <FormControl sx={{
                     mt: '10px',
@@ -131,25 +142,26 @@ export function AddEditForm() {
                             mt: '40px',
                             width: '130px',
                         }}
+                        defaultValue={auctionData.minBid}
                     />
                     <FormHelperText></FormHelperText>
                 </FormControl>
                 <FormControl sx={{
-                        mt: '10px',
-                        mb: '20px',
-                        width: '100%',
-                    }}>
-                    <InputLabel sx={{ mb: '100px'}}>Finish time</InputLabel>
+                    mt: '10px',
+                    mb: '20px',
+                    width: '100%',
+                }}>
+                    <InputLabel sx={{mb: '100px'}}>Finish time</InputLabel>
                     <LocalizationProvider
                         sx={{
                             width: '50%',
                         }}
                         dateAdapter={AdapterDayjs}>
-                        <Stack spacing={2} sx={{ minWidth: 305, mt: '40px', }}>
+                        <Stack spacing={2} sx={{minWidth: 305, mt: '40px',}}>
                             <DateTimePicker
                                 value={value}
                                 onChange={setValue}
-                                referenceDate={dayjs('2022-04-17T15:30')}
+                                referenceDate={dayjs(value || new Date())}
                             />
                         </Stack>
                     </LocalizationProvider>
@@ -180,10 +192,11 @@ export function AddEditForm() {
         </Container>
     );
 }
-export const AddEditAuctions = () => (
+
+export const EditAuction = ({formTitle, onSaveAction, fillForm}) => (
     <>
-        <Paper sx={{ ml: '10%', mr: '10%', boxShadow: 3, }}>
-        <AddEditForm/>
+        <Paper sx={{ml: '10%', mr: '10%', boxShadow: 3,}}>
+            <AddEditForm formTitle={formTitle} onSaveAction={onSaveAction} fillForm={fillForm}/>
         </Paper>
     </>
 )
