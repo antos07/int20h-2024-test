@@ -73,7 +73,7 @@ export function AddEditForm({formTitle, onSaveAction, fillForm}) {
     let auctionData = useLoaderData();
     if (!fillForm)
         auctionData = {};
-    const [value, setValue] = React.useState(fillForm ? dayjs(auctionData.endAt) : null);
+    const [value, setValue] = React.useState(fillForm ? dayjs(auctionData.end_date) : null);
     const navigate = useNavigate();
 
     const saveAuction = async () => {
@@ -85,6 +85,12 @@ export function AddEditForm({formTitle, onSaveAction, fillForm}) {
             endAt: new Date(value),
             image: document.getElementById("auctionImage").files[0],
         }
+
+        if (auction.endAt <= new Date()) {
+            alert("Impossible finish time.")
+            return
+        }
+
 
         const auctionId = await onSaveAction(auction, currentUser)
         if (auctionId) {
@@ -155,7 +161,7 @@ export function AddEditForm({formTitle, onSaveAction, fillForm}) {
                             <DateTimePicker
                                 value={value}
                                 onChange={setValue}
-                                referenceDate={dayjs(auctionData.end_date || new Date())}
+                                referenceDate={dayjs(value || new Date())}
                             />
                         </Stack>
                     </LocalizationProvider>

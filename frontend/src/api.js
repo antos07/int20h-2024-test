@@ -122,7 +122,7 @@ export const editAuction = async (auction, user) => {
         endAt: auction.endAt,
     };
     const response = await fetch(`/auction/${auction.id}`, {
-        method: "POST",
+        method: "PUT",
         headers: {
             "Content-Type": "application/json",
         },
