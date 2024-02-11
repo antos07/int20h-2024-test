@@ -83,14 +83,19 @@ export function MenuAppBar() {
                                 open={Boolean(anchorEl)}
                                 onClose={handleClose}
                             >
-                                <MenuItem onClick={undefined}>Log out</MenuItem>
+                                <MenuItem
+                                    component="a"
+                                    href="/logout"
+                                >
+                                    Log out
+                                </MenuItem>
                             </Menu>
                         </div>
                     )}
                     {!currentUser && (
                         <Button color="inherit"
-                                component={RouterLink}
-                                to="/"
+                                component="a"
+                                href="/oauth2/authorization/google"
                                 sx={{
                                     border: 1,
                                     borderRadius: '10px',

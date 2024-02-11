@@ -27,6 +27,7 @@ public class WebSecurityConfig {
                 })
                 .logout()
                 .deleteCookies()
+                .logoutSuccessUrl("/")
                 .and()
                 .oauth2Login()
                 .userInfoEndpoint()
