@@ -1,9 +1,7 @@
 import {Card, CardActionArea, CardContent, CardHeader, CardMedia, Fab, Typography} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import AddIcon from '@mui/icons-material/Add';
-
-import {useEffect, useState} from "react";
-import {Link, useRouteLoaderData} from "react-router-dom";
+import {Link, useLoaderData, useRouteLoaderData} from "react-router-dom";
 import {localizeDate} from "../utils";
 
 function AuctionCard({auction}) {
@@ -13,7 +11,7 @@ function AuctionCard({auction}) {
             <CardHeader
                 title={auction.title}
                 subheader={<>
-                    <Typography>@{auction.author}</Typography>
+                    <Typography>{auction.author}</Typography>
                     <Typography variant={'subtitle2'} sx={{fontSize: 12, fontFamily: 'Arial'}}>
                         {localizeDate(auction.start_date)} - {localizeDate(auction.end_date)}
                     </Typography>
@@ -33,47 +31,7 @@ function AuctionCard({auction}) {
 
 export const AuctionsIndex = () => {
     const currentUser = useRouteLoaderData("root");
-    const [auctions, setAuctions] = useState([]);
-
-    useEffect(() => {
-        setAuctions([
-            {
-                id: 1,
-                title: "Auction 1",
-                description: "Some cool auction",
-                start_date: new Date(),
-                end_date: new Date(),
-                author: "antos07",
-                image: "https://broken.image"
-            },
-            {
-                id: 2,
-                title: "Auction 2",
-                description: "Another reaaaaaaaaaaaaaaaally cool auction",
-                start_date: new Date(),
-                end_date: new Date(),
-                author: "SiIence_o0",
-                image: "https://t2.gstatic.com/licensed-image?q=tbn:ANd9GcQOO0X7mMnoYz-e9Zdc6Pe6Wz7Ow1DcvhEiaex5aSv6QJDoCtcooqA7UUbjrphvjlIc"
-            },
-            {
-                id: 3,
-                title: "Auction 3",
-                description: "I want to call my database API to information regarding a users public_address(metamask), first_name and last_name.\n" +
-                    "\n" +
-                    "Once I have this data (I call an api), I then use the mapping function in a list and then generate ListButtonItems for each element in my list.\n" +
-                    "\n" +
-                    "What I have done\n" +
-                    "\n" +
-                    "My API call is working perfectly fine, but the issue is my result array isn't populating, for example, when I retrieve my response (response is successfully fetched from the API), I add all the contents from my response to an array variable, this array always however appear s empty (I think this is due to the async nature of axios)\n" +
-                    "\n" +
-                    "Code",
-                start_date: new Date(),
-                end_date: new Date(),
-                author: "SiIence_o0",
-                image: "https://t2.gstatic.com/licensed-image?q=tbn:ANd9GcQOO0X7mMnoYz-e9Zdc6Pe6Wz7Ow1DcvhEiaex5aSv6QJDoCtcooqA7UUbjrphvjlIc"
-            }
-        ])
-    }, []);
+    const auctions = useLoaderData();
 
     return (
         <>
