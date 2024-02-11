@@ -1,5 +1,5 @@
 export const loadCurrentUser = async () => {
-    const userIdResponse = await fetch('/user/getCurrentId', { redirect: "error" });
+    const userIdResponse = await fetch('/user/getCurrentId', {redirect: "error"});
     if (!userIdResponse.ok) {
         return null;
     }
@@ -10,7 +10,7 @@ export const loadCurrentUser = async () => {
 
 
 export const getUser = async (userId) => {
-    const userDataResponse = await fetch(`/user/${userId}`, { redirect: "error" });
+    const userDataResponse = await fetch(`/user/${userId}`, {redirect: "error"});
     if (!userDataResponse.ok) {
         return null;
     }
@@ -44,4 +44,25 @@ export const listAuctions = async () => {
     });
 
     return await Promise.all(auctionPromises);
+}
+
+
+export const createAuction = async (auction, user) => {
+    const data = {
+        userId: user.id,
+        title: auction.title,
+        description: auction.description,
+        minOffer: auction.minBid,
+        startAt: new Date(),
+        endAt: auction.endAt,
+    };
+
+    const response = await fetch(`/auction`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+    return response.ok;
 }

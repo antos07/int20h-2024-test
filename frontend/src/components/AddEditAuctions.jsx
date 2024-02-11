@@ -1,4 +1,4 @@
-import {Link, Outlet} from "react-router-dom";
+import {Link, Outlet, useNavigate, useRouteLoaderData} from "react-router-dom";
 import {
     Button,
     Container,
@@ -20,6 +20,7 @@ import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import dayjs from "dayjs";
+import {createAuction} from "../api";
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -43,7 +44,9 @@ const TextFieldWithHover = styled(TextField)(({ theme }) => ({
 }));
 
 export function AddEditForm() {
+    const currentUser = useRouteLoaderData("root");
     const [value, setValue] = React.useState(null);
+    const navigate = useNavigate();
 
     const Textarea = styled(BaseTextareaAutosize)(
         ({ theme }) => `
@@ -70,6 +73,22 @@ export function AddEditForm() {
   `,
     );
 
+    const saveAuction = async () => {
+        const auction = {
+            title: document.getElementById("auctionTitle").value,
+            description: document.getElementById("auctionDescription").value,
+            minBid: +document.getElementById("auctionMinBid").value,
+            endAt: new Date(value),
+        }
+
+        if (await createAuction(auction, currentUser)) {
+            navigate("/");
+            return;
+        }
+
+        alert("Error");
+    }
+
     return (
         <Container sx={{
             textAlign: "center",
@@ -87,14 +106,14 @@ export function AddEditForm() {
             }}>
                 <FormControl sx={{width: '100%'}}>
                     <InputLabel>Title</InputLabel>
-                    <Input/>
+                    <Input id="auctionTitle"/>
                 </FormControl>
                 <FormControl sx={{
                     mt: '10px',
                     width: '100%',
                 }}>
                     <InputLabel>Description</InputLabel>
-                    <Textarea minRows={3} sx={{
+                    <Textarea id="auctionDescription" minRows={3} sx={{
                         mt: '40px',
                         width: '100%'
                     }}/>
@@ -105,7 +124,7 @@ export function AddEditForm() {
                 }}>
                     <InputLabel>Minimum bid</InputLabel>
                     <TextFieldWithHover
-                        id={"minBid"}
+                        id={"auctionMinBid"}
                         type="number"
                         sx={{
                             mt: '40px',
@@ -143,10 +162,10 @@ export function AddEditForm() {
                     <Button
                         component="label" variant="contained" startIcon={<CloudUploadIcon/>}>
                         Upload file
-                        <VisuallyHiddenInput type="file" accept="image/*"/>
+                        <VisuallyHiddenInput type="file" accept="image/*" id="auctionImage"/>
                     </Button>
                 </FormControl>
-                <Button sx={{
+                <Button onClick={saveAuction} sx={{
                     color: 'primary.strongDark',
                     mt: '10px',
                     mb: '40px',
