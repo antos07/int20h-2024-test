@@ -132,3 +132,14 @@ export const editAuction = async (auction, user) => {
         return false;
     return auction.id;
 }
+
+
+export const listAuctionActiveUsers = async (auctionId) => {
+    const response = await fetch(`/auction/getActiveUsers/${auctionId}`)
+    if (!response.ok) {
+        return [];
+    }
+
+    const userDtos = await response.json();
+    return userDtos.map((user) => {return {name: user.username}})
+}
