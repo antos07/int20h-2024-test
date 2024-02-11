@@ -53,18 +53,31 @@ export const getAuctionInfo = async (auctionId) => {
         return null;
     }
     const auction = await response.json();
-    const user = await getUser(auction.userId);
+    const author = await getUser(auction.userId);
+    const currentUser = await loadCurrentUser();
+
+    let checkAuthor;
+    if (currentUser === null) {
+        checkAuthor = false;
+    }
+    else {
+        checkAuthor = checkIsUserAuthor(currentUser, auction.userId);
+    }
 
     return {
-         authorId: user.username,
-         title: auction.title,
-         description: auction.description,
-         start_date: new Date(auction.startAt),
-         end_date: new Date(auction.endAt),
-         image: `/auction/getImage/${auction.id}`,
+        authorName: author.username,
+        title: auction.title,
+        description: auction.description,
+        start_date: new Date(auction.startAt),
+        end_date: new Date(auction.endAt),
+        image: `/auction/getImage/${auction.id}`,
+        amIAuthor: checkAuthor,
     }
 }
 
+function checkIsUserAuthor(currentUser, authorId) {
+    return currentUser.id === authorId;
+}
 
 export const createAuction = async (auction, user) => {
     // create an auction
