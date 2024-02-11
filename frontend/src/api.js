@@ -39,7 +39,7 @@ export const listAuctions = async () => {
             start_date: new Date(auction.startAt),
             end_date: new Date(auction.endAt),
             author: user.username,
-            image: "https://broken.image",
+            image: `/auction/getImage/${auction.id}`,
         }
     });
 
