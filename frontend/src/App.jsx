@@ -4,6 +4,7 @@ import {Auctions} from "./components/Auctions";
 import {AuctionsIndex} from "./components/AuctionsIndex";
 import {AuctionDetails} from "./components/AuctionDetails";
 import {listAuctions, loadCurrentUser} from "./api";
+import {AddEditAuctions} from "./components/AddEditAuctions";
 
 const router = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
             {
                 path: "auctions/:auctionId",
                 element: <AuctionDetails/>
+            },
+            {
+                path: "auctions/create",
+                element: <AddEditAuctions/>
             },
         ]
     },

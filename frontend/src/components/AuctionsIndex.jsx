@@ -44,8 +44,13 @@ export const AuctionsIndex = () => {
                 }
             </Grid>
             {
-                currentUser && <Fab color="secondary" aria-label="add"
-                                    sx={{position: 'fixed', bottom: '10%', right: '10%'}}>
+                currentUser && <Fab
+                    color="secondary"
+                    aria-label="add"
+                    sx={{position: 'fixed', bottom: '10%', right: '10%'}}
+                    component={Link}
+                    to="/auctions/create"
+                >
                     <AddIcon/>
                 </Fab>
             }
