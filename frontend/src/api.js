@@ -183,7 +183,9 @@ export const listAuctionActiveUsers = async (auctionId) => {
     }
 
     const userDtos = await response.json();
-    return userDtos.map((user) => {
-        return {name: user.username}
-    })
+    const users = userDtos.map((user) => {
+        return user.username;
+    });
+
+    return [...new Set(users)].map(username => {return {name: username}});
 }
