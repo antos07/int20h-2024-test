@@ -52,4 +52,8 @@ public class UserService {
         List<User> original = userRepository.findAll();
         return userMapper.convertToDtoList(original);
     }
+
+    public UserDto getByToken(String token){
+        return userMapper.convertToDTO(requireOneToken(token));
+    }
 }
