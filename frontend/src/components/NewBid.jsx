@@ -7,13 +7,12 @@ import {useNavigate} from "react-router-dom";
 export const NewBid = ({auction}) => {
     const navigate = useNavigate();
     const saveBid = async () => {
-        console.log('Ok');
         const bid = {
             offer: +document.getElementById("newBid").value,
             auctionId: auction.id,
         }
         if (await createBid(bid)) {
-            navigate(`/auctions/${auction.id}`);
+            navigate(0);
             return;
         }
         alert("Error");
@@ -29,7 +28,7 @@ export const NewBid = ({auction}) => {
                 />
             </Grid>
             <Grid xs={6} display="flex" justifyContent="left" alignItems="center">
-                <Button variant="contained" onlick={saveBid}>Bid</Button>
+                <Button variant="contained" onClick={saveBid}>Bid</Button>
             </Grid>
         </Grid>
     )

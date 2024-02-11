@@ -69,22 +69,24 @@ export const getAuctionInfo = async (auctionId) => {
 
 
 export const getAllBids = async (auctionId) => {
-    const responseBids = await fetch(`/auction/getBidHistory/${auctionId}`, { redirect: "error" });
+    const responseBids = await fetch(`/auction/getBidHistory/${auctionId}`, {redirect: "error"});
     if (!responseBids.ok) {
         return [];
     }
 
     const bidDtos = await responseBids.json();
-    return await Promise.all(bidDtos.map(async (bid) => {
+    const bids = (await Promise.all(bidDtos.map(async (bid) => {
         const user = await getUser(bid.userId);
 
         return {
             author: user.username,
             auctionId: bid.auctionId,
             timestamp: new Date(bid.createdAt),
-            price: bid.offer,
+            price: +bid.offer,
         }
-    }));
+    })));
+
+    return bids.sort((a, b) => b.timestamp - a.timestamp);
 }
 
 
@@ -181,5 +183,7 @@ export const listAuctionActiveUsers = async (auctionId) => {
     }
 
     const userDtos = await response.json();
-    return userDtos.map((user) => {return {name: user.username}})
+    return userDtos.map((user) => {
+        return {name: user.username}
+    })
 }
