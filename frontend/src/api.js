@@ -75,16 +75,16 @@ export const getAllBids = async (auctionId) => {
     }
 
     const bidDtos = await responseBids.json();
-    return bidDtos.map(async (bid) => {
+    return await Promise.all(bidDtos.map(async (bid) => {
         const user = await getUser(bid.userId);
 
         return {
             author: user.username,
             auctionId: bid.auctionId,
-            timestamp: bid.createdAt,
+            timestamp: new Date(bid.createdAt),
             price: bid.offer,
         }
-    })
+    }));
 }
 
 

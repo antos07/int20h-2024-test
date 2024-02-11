@@ -12,7 +12,7 @@ export const UserList = () => {
         (async () => {
             setActiveUsers(await listAuctionActiveUsers(auction.id));
         })()
-    });
+    }, []);
 
     return (
         <List

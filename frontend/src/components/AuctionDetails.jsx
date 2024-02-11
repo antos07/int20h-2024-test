@@ -9,11 +9,6 @@ export const AuctionDetails = () => {
     const currentUser = useRouteLoaderData("root");
     const auction = useLoaderData();
 
-    const activeUsers = [
-        {name: "antos07"},
-        {name: "SiIence_o0"},
-    ]
-
     return (
         <>
             <Paper sx={{padding: 3}}>

@@ -1,7 +1,6 @@
 import {grey} from "@mui/material/colors";
 import {Bid} from "./Bid";
 import {List} from "@mui/material";
-import {useLoaderData} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getAllBids} from "../api";
 
@@ -11,7 +10,7 @@ export const BidList = ({final, auction}) => {
         (async () => {
             setBids(await getAllBids(auction.id));
         })()
-    });
+    }, []);
 
     return (
         <List
