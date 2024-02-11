@@ -45,3 +45,47 @@ export const listAuctions = async () => {
 
     return await Promise.all(auctionPromises);
 }
+
+
+export const getAuctionInfo = async (auctionId) => {
+    const response = await fetch(`/auction/${auctionId}`, { redirect: "error" });
+    if (!response.ok) {
+        return null;
+    }
+    const auction = await response.json();
+    const user = await getUser(auction.userId);
+
+    return {
+         authorId: user.username,
+         title: auction.title,
+         description: auction.description,
+         start_date: new Date(auction.startAt),
+         end_date: new Date(auction.endAt),
+         image: `/auction/getImage/${auction.id}`,
+    }
+}
+
+
+export const listBids = async () => {
+    const response = await fetch('/auction/getAll');
+    if (!response.ok) {
+        return [];
+    }
+    const auctionDtos = await response.json();
+
+    const auctionPromises = auctionDtos.map(async (auction) => {
+        const user = await getUser(auction.userId);
+
+        return {
+            id: auction.id,
+            title: auction.title,
+            description: auction.description,
+            start_date: new Date(auction.startAt),
+            end_date: new Date(auction.endAt),
+            author: user.username,
+            image: "https://broken.image",
+        }
+    });
+
+    return await Promise.all(auctionPromises);
+}

@@ -3,7 +3,7 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import {Auctions} from "./components/Auctions";
 import {AuctionsIndex} from "./components/AuctionsIndex";
 import {AuctionDetails} from "./components/AuctionDetails";
-import {listAuctions, loadCurrentUser} from "./api";
+import {getAuctionInfo, listAuctions, loadCurrentUser} from "./api";
 
 const router = createBrowserRouter([
     {
@@ -19,7 +19,10 @@ const router = createBrowserRouter([
             },
             {
                 path: "auctions/:auctionId",
-                element: <AuctionDetails/>
+                element: <AuctionDetails/>,
+                loader: ({ params }) => {
+                    return getAuctionInfo(params.auctionId);
+                },
             },
         ]
     },
