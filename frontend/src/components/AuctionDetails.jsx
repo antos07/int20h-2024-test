@@ -3,18 +3,12 @@ import Grid from "@mui/material/Unstable_Grid2";
 import {localizeDate} from "../utils";
 import {BidDetailTabs} from "./BidDetailTabs";
 import {EditAuctionFab} from "./EditAuctionFab";
+import {useRouteLoaderData, useLoaderData} from "react-router-dom";
 
 export const AuctionDetails = () => {
-    const auction = {
-        id: 1,
-        title: "Auction 1",
-        description: "Some cool auction",
-        start_date: new Date(),
-        end_date: new Date(),
-        author: "antos07",
-        image: "https://t2.gstatic.com/licensed-image?q=tbn:ANd9GcQOO0X7mMnoYz-e9Zdc6Pe6Wz7Ow1DcvhEiaex5aSv6QJDoCtcooqA7UUbjrphvjlIc",
-        active: true
-    }
+    const currentUser = useRouteLoaderData("root");
+    const auction = useLoaderData();
+
     const bids = [
         {
             id: 6,
@@ -76,7 +70,7 @@ export const AuctionDetails = () => {
                 <Grid container spacing={3}>
                     <Grid xs={12} md={6}>
                         <Typography variant={'h4'}>{auction.title}</Typography>
-                        <Typography variant="subtitle2">by @{auction.author}</Typography>
+                        <Typography variant="subtitle2">by {auction.authorId}</Typography>
                     </Grid>
                     <Grid xs={12} md={6}>
                         <Typography variant="body1">Start: {localizeDate(auction.start_date)}</Typography>

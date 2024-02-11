@@ -47,6 +47,25 @@ export const listAuctions = async () => {
 }
 
 
+export const getAuctionInfo = async (auctionId) => {
+    const response = await fetch(`/auction/${auctionId}`, { redirect: "error" });
+    if (!response.ok) {
+        return null;
+    }
+    const auction = await response.json();
+    const user = await getUser(auction.userId);
+
+    return {
+         authorId: user.username,
+         title: auction.title,
+         description: auction.description,
+         start_date: new Date(auction.startAt),
+         end_date: new Date(auction.endAt),
+         image: `/auction/getImage/${auction.id}`,
+    }
+}
+
+
 export const createAuction = async (auction, user) => {
     // create an auction
     const data = {
