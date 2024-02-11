@@ -23,8 +23,7 @@ public class WebSecurityConfig {
                 //.cors().disable()
                 //.and()
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/").permitAll();
-                    auth.anyRequest().authenticated();
+                    auth.anyRequest().permitAll();
                 })
                 .logout()
                 .deleteCookies()
