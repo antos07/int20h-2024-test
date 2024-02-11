@@ -8,22 +8,28 @@ ENV NODE_ENV production
 WORKDIR /app
 
 # Installing dependencies
-COPY ./package.json ./
-COPY ./package-lock.json ./
+COPY ./frontend/package.json ./
+COPY ./frontend//package-lock.json ./
 
 RUN npm install
 
 # Copying all the files in our project
-COPY . .
+COPY ./frontend .
 
 # Building our application
 RUN npm run build
 
-# Fetching the latest nginx image
-FROM nginx
+FROM openjdk:18
+
+WORKDIR /app
+
+COPY .mvn .mvn
+COPY mvnw pom.xml ./
+RUN chmod +x ./mvnw && ./mvnw dependency:resolve
+
+COPY src ./src
 
 # Copying built assets from builder
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=builder /app/build ./src/main/resources/static
 
-# Copying our nginx.conf
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+CMD ["./mvnw", "spring-boot:run"]
