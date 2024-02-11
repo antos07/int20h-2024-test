@@ -23,19 +23,24 @@ public class WebSecurityConfig {
                 //.cors().disable()
                 //.and()
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/").permitAll();
+                    auth.requestMatchers("/resources/**", "/", "/index.html").permitAll();
                     auth.anyRequest().authenticated();
                 })
                 .logout()
-                .deleteCookies()
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/")
+                    .deleteCookies()
                 .and()
                 .oauth2Login()
-                .userInfoEndpoint()
-                .oidcUserService(googleService)
+                    .userInfoEndpoint()
+                    .oidcUserService(googleService)
+                    .and()
+                    .defaultSuccessUrl("/")
                 .and()
-                .defaultSuccessUrl("/")
+                .formLogin()
+                    .loginPage("/login")
+                    .successForwardUrl("/")
                 .and()
-                //.formLogin(withDefaults())
                 .build();
     }
 }
