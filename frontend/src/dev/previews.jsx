@@ -6,7 +6,7 @@ import {Auctions} from "../components/Auctions";
 import {AuctionDetails} from "../components/AuctionDetails";
 import {BidDetailTabs} from "../components/BidDetailTabs";
 import {UserListTab} from "../components/UserListTab";
-import {AddEditAuctions} from "../components/AddEditAuctions";
+import {EditAuction} from "../components/EditAuction";
 
 const ComponentPreviews = () => {
     return (
@@ -33,7 +33,7 @@ const ComponentPreviews = () => {
                 <UserListTab/>
             </ComponentPreview>
             <ComponentPreview path="/AddEditAuctions">
-                <AddEditAuctions/>
+                <EditAuction/>
             </ComponentPreview>
         </Previews>
     )

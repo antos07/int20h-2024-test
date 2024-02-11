@@ -48,7 +48,7 @@ export const listAuctions = async () => {
 
 
 export const getAuctionInfo = async (auctionId) => {
-    const response = await fetch(`/auction/${auctionId}`, { redirect: "error" });
+    const response = await fetch(`/auction/${auctionId}`, {redirect: "error"});
     if (!response.ok) {
         return null;
     }
@@ -56,12 +56,14 @@ export const getAuctionInfo = async (auctionId) => {
     const user = await getUser(auction.userId);
 
     return {
-         authorId: user.username,
-         title: auction.title,
-         description: auction.description,
-         start_date: new Date(auction.startAt),
-         end_date: new Date(auction.endAt),
-         image: `/auction/getImage/${auction.id}`,
+        id: auction.id,
+        minBid: auction.minOffer,
+        authorId: user.username,
+        title: auction.title,
+        description: auction.description,
+        start_date: new Date(auction.startAt),
+        end_date: new Date(auction.endAt),
+        image: `/auction/getImage/${auction.id}`,
     }
 }
 
@@ -88,6 +90,8 @@ export const createAuction = async (auction, user) => {
     const auctionDto = await response.json();
 
     // upload the image
+    if (!auction.image)
+        return auctionDto.id;
     const formData = new FormData();
     formData.append("image", auction.image);
     const imageUploadResponse = await fetch(`/auction/uploadImage/${auctionDto.id}`, {
@@ -103,5 +107,28 @@ export const createAuction = async (auction, user) => {
         return false;
     }
 
-    return true;
+    return auctionDto.id;
+}
+
+
+export const editAuction = async (auction, user) => {
+    // create an auction
+    const data = {
+        userId: user.id,
+        title: auction.title,
+        description: auction.description,
+        minOffer: auction.minBid,
+        startAt: new Date(),
+        endAt: auction.endAt,
+    };
+    const response = await fetch(`/auction/${auction.id}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+    if (!response.ok)
+        return false;
+    return auction.id;
 }
