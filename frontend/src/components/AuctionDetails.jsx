@@ -15,7 +15,7 @@ export const AuctionDetails = () => {
                 <Grid container spacing={3}>
                     <Grid xs={12} md={6}>
                         <Typography variant={'h4'}>{auction.title}</Typography>
-                        <Typography variant="subtitle2">by {auction.authorName}</Typography>
+                        <Typography variant="subtitle2">by {auction.author}</Typography>
                     </Grid>
                     <Grid xs={12} md={6}>
                         <Typography variant="body1">Start: {localizeDate(auction.start_date)}</Typography>
