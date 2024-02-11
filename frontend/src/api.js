@@ -48,6 +48,7 @@ export const listAuctions = async () => {
 
 
 export const createAuction = async (auction, user) => {
+    // create an auction
     const data = {
         userId: user.id,
         title: auction.title,
@@ -56,7 +57,6 @@ export const createAuction = async (auction, user) => {
         startAt: new Date(),
         endAt: auction.endAt,
     };
-
     const response = await fetch(`/auction`, {
         method: "POST",
         headers: {
@@ -64,5 +64,25 @@ export const createAuction = async (auction, user) => {
         },
         body: JSON.stringify(data),
     })
-    return response.ok;
+    if (!response.ok)
+        return false;
+    const auctionDto = await response.json();
+
+    // upload the image
+    const formData = new FormData();
+    formData.append("image", auction.image);
+    const imageUploadResponse = await fetch(`/auction/uploadImage/${auctionDto.id}`, {
+        method: "POST",
+        body: formData,
+    })
+    if (!imageUploadResponse.ok) {
+        // clean up the created auction
+        await fetch(`/auction/${auctionDto.id}`, {
+            method: "DELETE",
+        })
+
+        return false;
+    }
+
+    return true;
 }

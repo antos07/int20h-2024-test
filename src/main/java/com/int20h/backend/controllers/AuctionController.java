@@ -25,8 +25,8 @@ public class AuctionController {
     private final AuctionService auctionService;
 
     @PostMapping
-    public void save(@Valid @RequestBody AuctionDto dto) {
-        auctionService.save(dto);
+    public AuctionDto save(@Valid @RequestBody AuctionDto dto) {
+        return auctionService.save(dto);
     }
 
     @DeleteMapping("/{id}")

@@ -79,6 +79,7 @@ export function AddEditForm() {
             description: document.getElementById("auctionDescription").value,
             minBid: +document.getElementById("auctionMinBid").value,
             endAt: new Date(value),
+            image: document.getElementById("auctionImage").files[0],
         }
 
         if (await createAuction(auction, currentUser)) {
