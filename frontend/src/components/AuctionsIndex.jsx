@@ -3,7 +3,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import AddIcon from '@mui/icons-material/Add';
 
 import {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
+import {Link, useRouteLoaderData} from "react-router-dom";
 import {localizeDate} from "../utils";
 
 function AuctionCard({auction}) {
@@ -14,7 +14,7 @@ function AuctionCard({auction}) {
                 title={auction.title}
                 subheader={<>
                     <Typography>@{auction.author}</Typography>
-                    <Typography variant={'subtitle2'} sx={{ fontSize: 12, fontFamily: 'Arial'}}>
+                    <Typography variant={'subtitle2'} sx={{fontSize: 12, fontFamily: 'Arial'}}>
                         {localizeDate(auction.start_date)} - {localizeDate(auction.end_date)}
                     </Typography>
                 </>}
@@ -32,6 +32,7 @@ function AuctionCard({auction}) {
 }
 
 export const AuctionsIndex = () => {
+    const currentUser = useRouteLoaderData("root");
     const [auctions, setAuctions] = useState([]);
 
     useEffect(() => {
@@ -84,9 +85,10 @@ export const AuctionsIndex = () => {
                     </Grid>)
                 }
             </Grid>
-            <Fab color="secondary" aria-label="add" sx={{position: 'fixed', bottom: '10%', right: '10%'}}>
+            (currentUser && <Fab color="secondary" aria-label="add"
+                                  sx={{position: 'fixed', bottom: '10%', right: '10%'}}>
                 <AddIcon/>
-            </Fab>
+            </Fab>)
         </>
     );
 }

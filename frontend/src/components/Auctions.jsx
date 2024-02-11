@@ -1,4 +1,4 @@
-import {Outlet, Link as RouterLink} from "react-router-dom";
+import {Outlet, Link as RouterLink, useRouteLoaderData} from "react-router-dom";
 
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
@@ -14,12 +14,8 @@ import {Container, Link, Paper, styled} from "@mui/material";
 import {green, grey} from "@mui/material/colors";
 
 export function MenuAppBar() {
-    const [auth, setAuth] = React.useState(true);
+    const currentUser = useRouteLoaderData("root");
     const [anchorEl, setAnchorEl] = React.useState(null);
-
-    const handleChange = (event) => {
-        setAuth(event.target.checked);
-    };
 
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
@@ -57,7 +53,7 @@ export function MenuAppBar() {
                     >
                         CharityAuctions
                     </Link>
-                    {auth && (
+                    {currentUser && (
                         <div>
                             <IconButton
                                 size="large"
@@ -87,11 +83,11 @@ export function MenuAppBar() {
                                 open={Boolean(anchorEl)}
                                 onClose={handleClose}
                             >
-                                <MenuItem onClick={handleChange}>Log out</MenuItem>
+                                <MenuItem onClick={undefined}>Log out</MenuItem>
                             </Menu>
                         </div>
                     )}
-                    {!auth && (
+                    {!currentUser && (
                         <Button color="inherit"
                                 component={RouterLink}
                                 to="/"
