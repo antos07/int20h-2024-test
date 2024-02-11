@@ -12,6 +12,7 @@ import java.util.UUID;
 @Value
 @AuctionDates
 public class AuctionDto implements Serializable {
+    UUID Id;
     UUID userId;
     String title;
     String description;

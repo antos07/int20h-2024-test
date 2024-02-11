@@ -29,6 +29,7 @@ public class AuctionMapper implements IMapper<Auction, AuctionDto> {
     @Override
     public AuctionDto convertToDTO(Auction entity) {
         return new AuctionDto(
+                entity.getId(),
                 entity.getUser().getId(),
                 entity.getTitle(),
                 entity.getDescription(),
