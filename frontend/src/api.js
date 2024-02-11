@@ -58,7 +58,7 @@ export const getAuctionInfo = async (auctionId) => {
     return {
         id: auction.id,
         minBid: auction.minOffer,
-        authorId: user.username,
+        author: user.username,
         title: auction.title,
         description: auction.description,
         start_date: new Date(auction.startAt),

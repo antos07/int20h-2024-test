@@ -70,7 +70,7 @@ export const AuctionDetails = () => {
                 <Grid container spacing={3}>
                     <Grid xs={12} md={6}>
                         <Typography variant={'h4'}>{auction.title}</Typography>
-                        <Typography variant="subtitle2">by {auction.authorId}</Typography>
+                        <Typography variant="subtitle2">by {auction.author}</Typography>
                     </Grid>
                     <Grid xs={12} md={6}>
                         <Typography variant="body1">Start: {localizeDate(auction.start_date)}</Typography>
@@ -91,7 +91,13 @@ export const AuctionDetails = () => {
                     </Grid>
                 </Grid>
             </Paper>
-            <EditAuctionFab auction={auction} sx={{color: 'primary.strongDark'}}/>
+            {
+                currentUser
+                && auction.author === currentUser.username
+                && auction.end_date
+                && auction.end_date > new Date()
+                && <EditAuctionFab auction={auction} sx={{color: 'primary.strongDark'}}/>
+            }
         </>
     )
 }
